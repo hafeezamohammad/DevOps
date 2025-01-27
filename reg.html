@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+      #sucessMessage
+      {
+      display: none;
+      color:blue;
+      font-size: 25px;
+      text-align: center;
+      margin-top: 200px;
+      display: block;
+    }
+        body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 80px;
+            justify-content: space-between;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .left-side {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .right-side {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+        }
+
+#successMessage {
+            display: none;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-side">
+        <img src="https://tse4.mm.bing.net/th?id=OIP.cOSR0SqSU9XJJZrY77JzawHaCf&pid=Api&P=0&h=220.png" alt="CS logo"/>
+        <h1>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</h1>
+        <h2>VISION</h2>
+        <p>To escalate the department by creativeness in technology for emerging and global needs through Training, Research & Development.</p>
+        <h2>MISSION</h2>
+        <p>To impart training to students in emerging technologies to product development</p>
+        <ol>
+            <li>To promote research & innovation skills through professional guidance</li>
+            <li>To originate social technocrats who perceive societal problems as being solvable by applying technology.</li>
+            <li>To produce professionals with strong values and zeal to serve society.</li>
+            <li>To create leaders with strong communication skills who can drive, inspire, and guide the groups they work with.</li>
+        </ol>
+    </div>
+
+
+    <div class="right-side">
+        <h2>Registration Form</h2>
+        <!-- Form starts here -->
+        <form id="registrationForm" onsubmit="return validateForm()">
+            <label for="fname">First Name:</label><br><br>
+            <input type="text" id="fname" name="fname" required><br><br>
+
+            <label for="lname">Last Name:</label><br><br>
+            <input type="text" id="lname" name="lname" required><br><br>
+
+            <label for="email">Email:</label><br><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="password">Password:</label><br><br>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <label for="confirm_password">Confirm Password:</label><br><br>
+            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+            <div>
+              <label for="captcha">Captcha</label>
+              <div id="captchaCode" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
+              <input type="text" id="captchaInput" placeholder="Enter the above code" required />
+            </div>
+
+            <input type="submit" value="Register"><br><br>
+        </form>
+
+        <!-- Success Message Placeholder -->
+        <div id="successMessage">
+            Registration Successful! Thank you for registering.
+        </div>
+    </div>
+
+ <script>
+      function generateCaptcha() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let captcha = "";
+        for (let i = 0; i < 6; i++) {
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return captcha;
+    }
+    const captchaCodeElement = document.getElementById("captchaCode");
+    let captchaCode = generateCaptcha();
+    captchaCodeElement.textContent = captchaCode;
+        // Function to validate the form
+        function validateForm() {
+            // Get form values
+            var fname = document.getElementById("fname").value;
+            var lname = document.getElementById("lname").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            const captchaInput = document.getElementById("captchaInput").value.trim();
+
+            // Check if fields are empty
+            if (fname === "" || lname === "" || email === "" || password === "" || confirm_password === "") {
+                return false; // Prevent form submission
+            }
+
+            // Check if passwords match
+            if (password !== confirm_password) {
+                alert("Passwords do not match!"); // Alert for password mismatch
+                return false; // Prevent form submission
+            }
+
+            // Email validation (basic regex pattern)
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address."); // Alert for invalid email
+                return false; // Prevent form submission
+            }
+            if (captchaInput !== captchaCode) {
+                message.textContent = "Incorrect CAPTCHA. Please try again.";
+                captchaCode = generateCaptcha();
+                captchaCodeElement.textContent = captchaCode;
+                return;
+            }
+
+            // If all validations pass, hide the form and show the success message
+            document.getElementById("registrationForm").style.display = "none"; // Hide form
+            document.getElementById("successMessage").style.display = "block"; // Show success message
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+</html>
